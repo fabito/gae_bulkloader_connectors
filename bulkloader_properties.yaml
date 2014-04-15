@@ -1,0 +1,15 @@
+python_preamble:
+- import: base64
+- import: re
+- import: properties_connector
+- import: google.appengine.ext.bulkload.transform
+
+transformers:
+
+- kind: Configuration
+  connector: properties_connector.PropertyConnector.create_from_options
+  property_map:
+    - property: __key__
+      external_name: property_name
+    - property: value
+      external_name: property_value

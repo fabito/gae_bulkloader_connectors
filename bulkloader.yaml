@@ -2,11 +2,8 @@ python_preamble:
 - import: base64
 - import: re
 - import: oracle_connector
+- import: properties_connector
 - import: google.appengine.ext.bulkload.transform
-- import: google.appengine.ext.bulkload.bulkloader_wizard
-- import: google.appengine.ext.db
-- import: google.appengine.api.datastore
-- import: google.appengine.api.users
 
 transformers:
 
@@ -17,9 +14,17 @@ transformers:
   property_map:
     - property: __key__
       external_name: TABLE_NAME
-
     - property: tablespace
       external_name: TABLESPACE_NAME
-
     - property: last_analyzed
       external_name: LAST_ANALYZED
+
+- kind: Configuration
+  connector: properties_connector.PropertyConnector.create_from_options
+  connector_options:
+    columns: "property_name, property_value"
+  property_map:
+    - property: __key__
+      external_name: property_name
+    - property: value
+      external_name: property_value
